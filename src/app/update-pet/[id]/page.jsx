@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function UpdatePetPage() {
 
@@ -11,7 +12,7 @@ export default function UpdatePetPage() {
 
   const [pet, setPet] = useState(null);
 
-  // Fetch Single Pet
+ 
   useEffect(() => {
 
     fetch(`http://localhost:8000/pets/${id}`)
@@ -20,7 +21,7 @@ export default function UpdatePetPage() {
 
   }, [id]);
 
-  // Update Handler
+ 
   const handleUpdate = async (e) => {
 
     e.preventDefault();
@@ -44,11 +45,13 @@ export default function UpdatePetPage() {
     });
 
     const data = await res.json();
+if (data.modifiedCount > 0) {
 
-    if (data.modifiedCount > 0) {
-      alert("Pet updated successfully");
-      router.push("/pets");
-    }
+  toast.success("Pet updated successfully!");
+
+  router.push("/pets");
+}
+    
   };
 
   if (!pet) {

@@ -17,7 +17,7 @@ const AllPetsPage = () => {
 
   }, []);
 
-  // Filter Logic
+ 
   const filteredPets = pets.filter((pet) => {
 
     const matchesSearch = pet.name
@@ -37,7 +37,7 @@ const AllPetsPage = () => {
 
       <div className="max-w-7xl mx-auto px-6">
 
-        {/* Title */}
+       
         <div className="text-center mb-10">
 
           <h1 className="text-5xl font-bold text-gray-800">
@@ -50,7 +50,7 @@ const AllPetsPage = () => {
 
         </div>
 
-        {/* Search + Filter */}
+       
         <div className="flex flex-col md:flex-row gap-4 mb-10">
 
           {/* Search */}
@@ -62,7 +62,7 @@ const AllPetsPage = () => {
             className="flex-1 p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
 
-          {/* Filter */}
+       
           <select
             value={species}
             onChange={(e) => setSpecies(e.target.value)}
@@ -124,11 +124,7 @@ const AllPetsPage = () => {
                   {pet.breed}
                 </p>
 
-                {/* <p className="mt-4 text-gray-600 text-sm leading-relaxed">
-                  {pet.description.slice(0, 80)}...
-                </p> */}
-
-                {/* Details */}
+               
                 <div className="grid grid-cols-2 gap-3 mt-5 text-sm">
 
                   <div className="bg-gray-100 p-3 rounded-lg">
@@ -141,23 +137,13 @@ const AllPetsPage = () => {
                     <p className="font-semibold">{pet.age} yrs</p>
                   </div>
 
-                  {/* <div className="bg-gray-100 p-3 rounded-lg">
-                    <p className="text-gray-500">Location</p>
-                    <p className="font-semibold">{pet.location}</p>
-                  </div> */}
-
-                  {/* <div className="bg-green-50 p-3 rounded-lg">
-                    <p className="text-gray-500">Fee</p>
-                    <p className="font-bold text-green-600">
-                      ${pet.adoptionFee}
-                    </p>
-                  </div> */}
+                 
 
                 </div>
 
                 <div className="flex gap-3 mt-6">
 
-  {/* View Details */}
+ 
   <Link href={`/pets/${pet._id}`} className="flex-1">
 
     <button className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition">
