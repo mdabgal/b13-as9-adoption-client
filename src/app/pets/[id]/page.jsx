@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { use } from "react";
 
 async function getPet(id) {
@@ -109,13 +110,41 @@ export default function PetDetails({ params }) {
 
           </div>
 
-          {/* Button */}
-          <button className="mt-8 w-full bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition">
-            Adopt Now
-          </button>
+         {/* Buttons Section */}
+<div className="mt-10 space-y-4">
 
-        </div>
+  {/* Top Row */}
+  <div className="flex gap-4">
+
+    {/* Back */}
+    <Link href="/pets" className="flex-1">
+      <button className="w-full bg-gray-600 text-white py-3 rounded-xl font-semibold hover:bg-gray-700 transition">
+        Back to Pets
+      </button>
+    </Link>
+
+    {/* Edit */}
+    <Link href={`/update-pet/${pet._id}`}>
+      <button className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition">
+        Edit
+      </button>
+    </Link>
+
+  </div>
+
+  {/* Adopt Button */}
+  <button className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition">
+    Adopt Now
+  </button>
+
+</div>
+
+ 
+          
+
+       </div>
       </div>
     </div>
+    
   );
 }

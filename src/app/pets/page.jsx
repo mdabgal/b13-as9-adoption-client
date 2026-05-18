@@ -155,16 +155,20 @@ const AllPetsPage = () => {
 
                 </div>
 
-                {/* Button */}
-                <Link href={`/pets/${pet._id}`}>
+                <div className="flex gap-3 mt-6">
 
-                  <button className="w-full mt-6 bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition">
+  {/* View Details */}
+  <Link href={`/pets/${pet._id}`} className="flex-1">
 
-                    View Details
+    <button className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition">
+      View Details
+    </button>
 
-                  </button>
+  </Link>
 
-                </Link>
+ 
+
+</div>
 
               </div>
 
