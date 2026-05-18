@@ -9,14 +9,13 @@ import Image from 'next/image';
 
 const Hero = () => {
     return (
-        /* Matching the dark theme of your navbar or keeping it clean white with green accents */
-        <section className="w-full bg-white dark:bg-gray-900 py-12 md:py-24">
+         <section className="w-full bg-white dark:bg-gray-800 py-12 md:py-24">
             
             <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
                 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                     
-                    {/* Left Side: Text Content */}
+                   
                     <div className="order-2 lg:order-1 text-center lg:text-left">
                         <div className="space-y-8">
                             <div className="inline-flex items-center gap-2 px-4 py-2 text-green-600 bg-green-50 rounded-full font-bold text-sm tracking-wide">
@@ -48,7 +47,7 @@ const Hero = () => {
                                 </Link>
                             </div>
 
-                            {/* Trust Stats */}
+                          
                             <div className="flex items-center justify-center lg:justify-start gap-8 pt-8">
                                 <div>
                                     <p className="text-2xl font-bold text-gray-900 dark:text-white">1,200+</p>
@@ -63,10 +62,9 @@ const Hero = () => {
                         </div>
                     </div>
 
-                    {/* Right Side: Image Section */}
                     <div className="order-1 lg:order-2">
                         <div className="relative">
-                            {/* Decorative Background Shape */}
+                         
                             <div className="absolute -top-10 -right-10 w-64 h-64 bg-green-100 rounded-full -z-10 blur-3xl opacity-60"></div>
                             
                             <div className="relative overflow-hidden rounded-2xl shadow-2xl border-[10px] border-white dark:border-gray-800 transform lg:-rotate-2 hover:rotate-0 transition-transform duration-500">
@@ -79,11 +77,11 @@ const Hero = () => {
                                 className='w-full h-[300px] md:h-[500px] lg:h-[600px] object-cover rounded-2xl'
                                 />
                                 
-                                {/* Floating Info Box */}
+                              
                                 <div className="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-md p-4 rounded-xl shadow-lg flex items-center justify-between">
                                     <div className="flex items-center gap-3">
                                         <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white text-xl">
-                                            🐕
+                                           
                                         </div>
                                         <div>
                                             <p className="text-sm font-bold text-gray-900">Buddy is waiting</p>
