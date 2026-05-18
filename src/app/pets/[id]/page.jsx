@@ -1,182 +1,223 @@
 
-"use client"
 
+"use client";
+
+import { use, useEffect, useState } from "react";
 import Link from "next/link";
-import { use } from "react";
+import toast from "react-hot-toast";
 
-async function getPet(id) {
-  const res = await fetch(`http://localhost:8000/pets/${id}`, {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    return null;
-  }
-
-  return res.json();
-}
 
 export default function PetDetails({ params }) {
-  const { id } = use(params);
+  const { id } = use(params); 
 
-  const pet = use(getPet(id));
+ 
+  const [pet, setPet] = useState(null);
 
+const [pickupDate, setPickupDate] = useState("");
+const [message, setMessage] = useState("");
 
+  useEffect(() => {
+    const fetchPet = async () => {
+      const res = await fetch(`http://localhost:8000/pets/${id}`);
+      const data = await res.json();
+      setPet(data);
+    };
 
-
+    fetchPet();
+  }, [id]);
 
   const handleAdopt = async () => {
-  const request = {
-    petId: pet._id,
-    petName: pet.name,
-    userEmail: "demo@gmail.com",
-    pickupDate: "2026-01-01",
-    message: "I want to adopt this pet",
-    status: "pending"
-  };
+    const request = {
+      petId: pet._id,
+      petName: pet.name,
+      userEmail: "demo@gmail.com",
+      pickupDate:  pickupDate,
+      message: message,
+      status: "pending",
+    };
 
-  await fetch("http://localhost:8000/requests", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(request),
-  });
-};
 
-  
+
+
+ const res = await fetch("http://localhost:8000/requests", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request),
+    });
+
+    if (res.ok) {
+    toast.success("Adoption request sent!");
+  } else {
+    toast.error("Something went wrong!");
+  }
+}
 
   if (!pet) {
     return (
-      <div className="text-center py-20 text-red-500">
-        
+      <div className="text-center py-20 text-xl font-semibold">
+        Loading...
       </div>
     );
   }
 
-  
   return (
-    <div className="max-w-6xl border  border-gray-50  rounded-2xl mt-10  mx-auto px-6 py-12">
+    <div className="max-w-6xl mx-auto px-4 py-10">
 
-   
-      <div className="grid md:grid-cols-2 gap-10 border-gray-100 shadow-2xl bg-white shadow-2xl rounded-2xl overflow-hidden border">
+     
+      <div className="bg-white shadow-2xl rounded-2xl overflow-hidden grid md:grid-cols-2">
 
-        {/* Image Section */}
-        <div className="relative">
+       
+        <div className="w-full h-[400px] md:h-[600px]">
           <img
             src={pet.image}
             alt={pet.name}
-            className="w-full h-full object-cover md:h-[500px]"
+            className="w-full h-full object-cover"
           />
-
-          <div className="absolute top-4 left-4">
-            <span
-              className={`px-4 py-1 rounded-full text-white text-sm font-semibold ${
-                pet.adopted ? "bg-red-500" : "bg-green-600"
-              }`}
-            >
-              {pet.adopted ? "Adopted" : "Available"}
-            </span>
-          </div>
         </div>
 
-       
-        <div className="p-8">
+        
+        <div className="p-6 md:p-10 space-y-4">
 
           <h1 className="text-4xl font-bold text-gray-800">
             {pet.name}
           </h1>
-
-          <p className="text-gray-500 mt-1 text-lg">
+     <p className="text-gray-500 text-lg">
             {pet.breed}
           </p>
 
-          <p className="mt-5 text-gray-600 leading-relaxed text-justify">
+          <p className="text-gray-700 leading-relaxed">
             {pet.description}
           </p>
 
          
-          <div className="grid grid-cols-2 gap-4 mt-6 text-gray-700">
+          <div className="grid grid-cols-2 gap-4 mt-4">
 
-            <div className="bg-gray-50 p-3 rounded-lg">
-              <p className="text-sm text-gray-500">Species</p>
+            <div className="bg-gray-100 p-3 rounded-lg">
+          <p className="text-sm text-gray-500">Species</p>
               <p className="font-semibold">{pet.species}</p>
             </div>
 
-            <div className="bg-gray-50 p-3 rounded-lg">
-              <p className="text-sm text-gray-500">Age</p>
+            <div className="bg-gray-100 p-3 rounded-lg">
+       <p className="text-sm text-gray-500">Age</p>
               <p className="font-semibold">{pet.age} years</p>
             </div>
 
-            <div className="bg-gray-50 p-3 rounded-lg">
+            <div className="bg-gray-100 p-3 rounded-lg">
               <p className="text-sm text-gray-500">Gender</p>
-              <p className="font-semibold">{pet.gender}</p>
+                  <p className="font-semibold">{pet.gender}</p>
             </div>
 
-            <div className="bg-gray-50 p-3 rounded-lg">
+            <div className="bg-gray-100 p-3 rounded-lg">
               <p className="text-sm text-gray-500">Location</p>
-              <p className="font-semibold">{pet.location}</p>
+        <p className="font-semibold">{pet.location}</p>
             </div>
 
-            <div className="bg-gray-50 p-3 rounded-lg">
+            <div className="bg-gray-100 p-3 rounded-lg">
               <p className="text-sm text-gray-500">Health</p>
               <p className="font-semibold">{pet.healthStatus}</p>
             </div>
-
-            <div className="bg-gray-50 p-3 rounded-lg">
+   <div className="bg-gray-100 p-3 rounded-lg">
               <p className="text-sm text-gray-500">Vaccination</p>
-              <p className="font-semibold">{pet.vaccinationStatus}</p>
-            </div>
-
-            <div className="bg-green-50 p-3 rounded-lg col-span-2">
-              <p className="text-sm text-gray-500">Adoption Fee</p>
-              <p className="font-bold text-green-600 text-lg">
-                ${pet.adoptionFee}
-              </p>
+               <p className="font-semibold">{pet.vaccinationStatus}</p>
             </div>
 
           </div>
 
-         {/* Buttons Section */}
-<div className="mt-10 space-y-4">
+          {/* FEE */}
+          <div className="bg-green-100 p-4 rounded-xl mt-4">
+             <p className="text-sm text-gray-600">Adoption Fee</p>
+            <p className="text-2xl font-bold text-green-700">
+              ${pet.adoptionFee}
+            </p>
+          </div>
 
-  {/* Top Row */}
-  <div className="flex gap-4">
+          {/* BUTTONS */}
+          <div className="flex gap-3 mt-6">
 
-    {/* Back */}
-    <Link href="/pets" className="flex-1">
-      <button className="w-full bg-gray-600 text-white py-3 rounded-xl font-semibold hover:bg-gray-700 transition">
-        Back to Pets
-      </button>
-    </Link>
+            <Link href="/pets" className="flex-1">
+              <button className="w-full bg-gray-600 text-white py-3 rounded-xl">
+                Back
+              </button>
+            </Link>
 
-    {/* Edit */}
-    <Link href={`/update-pet/${pet._id}`}>
-      <button className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition">
-        Edit
-      </button>
-    </Link>
+            <button
+              onClick={handleAdopt}
+              className="flex-1 bg-green-600 text-white py-3 rounded-xl"
+            >
+              Adopt Now
+            </button>
 
-  </div>
+          </div>
 
-<button
-  onClick={handleAdopt}
-  className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition"
->
-  Adopt Now
-</button>
+        </div>
+      </div>
+
+
+
+
+<div className="max-w-3xl mx-auto mt-10 border border-gray-100 shadow-2xl p-6 rounded-2xl bg-gray-50">
+
+  <h2 className="text-2xl font-bold mb-4">
+    Adoption Form
+  </h2>
+  <input
+    value={pet.name}
+    readOnly
+    className="w-full p-2 border rounded-lg mb-3"
+  />
+  <input
+    value="Demo User"
+     readOnly
+      className="w-full p-2 border rounded-lg mb-3"
+  />
+
+  <input
+    value="demo@gmail.com"
+     readOnly
+    className="w-full p-2 border rounded-lg mb-3"
+  />
+
+  <input
+    type="date"
+     value={pickupDate}
+    onChange={(e) => setPickupDate(e.target.value)}
+    className="w-full p-2 border rounded-lg mb-3"
+  />
+
+  <textarea
+    value={message}
+      onChange={(e) => setMessage(e.target.value)}
+    className="w-full p-2 border rounded-lg mb-3"
+    placeholder="Message..."
+  />
+
+  <button
+    onClick={handleAdopt}
+     disabled={!pickupDate || !message}
+    className="w-full bg-green-600 text-white py-3 rounded-xl"
+  >
+    Adopt Now
+  </button>
 
 </div>
 
- 
-          
 
-       </div>
-      </div>
+
+
+
+
+
+
+
     </div>
-    
+
+
+
+
+
+
   );
 }
-
-
 

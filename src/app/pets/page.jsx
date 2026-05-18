@@ -143,14 +143,12 @@ const AllPetsPage = () => {
 
                 <div className="flex gap-3 mt-6">
 
- 
-  <Link href={`/pets/${pet._id}`} className="flex-1">
-
-    <button className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition">
-      View Details
-    </button>
-
-  </Link>
+ <Link
+  href={`/pets/${pet._id}`}
+  className="w-full mt-6 bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition flex items-center justify-center"
+>
+  View Details
+</Link>
 
  
 

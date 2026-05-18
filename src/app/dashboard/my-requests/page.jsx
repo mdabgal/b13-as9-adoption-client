@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FaCalendarAlt } from "react-icons/fa";
 
 export default function MyRequestsPage() {
 
@@ -15,17 +16,17 @@ export default function MyRequestsPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-6">
 
-      {/* Title */}
+     
       <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-6">
         My Requests
       </h1>
 
-      {/* Empty State */}
+     
       {requests.length === 0 && (
         <p className="text-gray-500">No requests found</p>
       )}
 
-      {/* Grid */}
+     
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
         {requests.map((req) => (
@@ -35,22 +36,22 @@ export default function MyRequestsPage() {
             className="bg-white rounded-2xl shadow-md p-4 flex flex-col"
           >
 
-            {/* Pet Name */}
+           
             <h2 className="text-xl font-bold text-gray-800">
               {req.petName}
             </h2>
 
-            {/* Email */}
             <p className="text-gray-500 text-sm">
               {req.userEmail}
             </p>
 
-            {/* Pickup Date */}
-            <p className="mt-2 text-gray-600">
-              📅 {req.pickupDate}
+          
+            <p className="mt-2 text-gray-600 flex items-center gap-2">
+              <FaCalendarAlt /> <span>{req.pickupDate}</span>
             </p>
+           
 
-            {/* Message */}
+            
             <p className="mt-2 text-gray-600">
               {req.message}
             </p>
