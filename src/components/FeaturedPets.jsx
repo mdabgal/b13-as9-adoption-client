@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function FeaturedPets() {
@@ -49,9 +50,11 @@ export default function FeaturedPets() {
                   {pet.breed}
                 </p>
 
-                <button className="mt-5 bg-green-600 px-5 py-2 rounded-lg hover:bg-green-700 transition">
-                  View Details
-                </button>
+                <Link href={`/pets/${pet._id}`}>
+  <button className="mt-5 bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition">
+    View Details
+  </button>
+</Link>
 
               </div>
 

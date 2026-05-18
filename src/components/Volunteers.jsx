@@ -8,7 +8,7 @@ import { FaHandsHelping } from "react-icons/fa";
 export default function Volunteers() {
   return (
     <section className="py-20 bg-gray-800 text-white">
-      <div className="max-w-6xl mx-auto px-6 ">
+      <div className="max-w-6xl mx-auto px-6 "> 
 
         
         <div className="text-center mb-12">

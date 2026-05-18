@@ -21,6 +21,11 @@ export default function Navbar() {
         <div className="hidden md:flex gap-6 text-gray-300">
           <Link href="/" className="hover:text-green-400">Home</Link>
           <Link href="/pets" className="hover:text-green-400">All Pets</Link>
+          <Link href="/add-pet">
+  <button className="hover:text-green-400">
+    Add Pet
+  </button>
+</Link>
           <Link href="/dashboard" className="hover:text-green-400">Dashboard</Link>
         </div>
 
@@ -54,6 +59,7 @@ export default function Navbar() {
         <div className="md:hidden px-6 pb-4 flex flex-col gap-3 text-gray-300">
           <Link href="/">Home</Link>
           <Link href="/pets">All Pets</Link>
+          <Link href="/add-pet">Add Pet</Link>
           <Link href="/dashboard">Dashboard</Link>
           <Link href="/login">Login</Link>
           <Link href="/register">Register</Link>

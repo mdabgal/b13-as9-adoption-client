@@ -5,7 +5,7 @@ import PetCareTips from "@/components/PetCareTips";
 import SuccessStories from "@/components/SuccessStories";
 import Volunteers from "@/components/Volunteers";
 import WhyAdopt from "@/components/WhyAdopt";
-import Image from "next/image";
+
 
 export default function Home() {
   return (
