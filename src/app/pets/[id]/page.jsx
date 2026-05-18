@@ -1,3 +1,6 @@
+
+"use client"
+
 import Link from "next/link";
 import { use } from "react";
 
@@ -18,7 +21,31 @@ export default function PetDetails({ params }) {
 
   const pet = use(getPet(id));
 
+
+
+
+
+  const handleAdopt = async () => {
+  const request = {
+    petId: pet._id,
+    petName: pet.name,
+    userEmail: "demo@gmail.com",
+    pickupDate: "2026-01-01",
+    message: "I want to adopt this pet",
+    status: "pending"
+  };
+
+  await fetch("http://localhost:8000/requests", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(request),
+  });
+};
+
   
+
   if (!pet) {
     return (
       <div className="text-center py-20 text-red-500">
@@ -132,10 +159,12 @@ export default function PetDetails({ params }) {
 
   </div>
 
-  {/* Adopt Button */}
-  <button className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition">
-    Adopt Now
-  </button>
+<button
+  onClick={handleAdopt}
+  className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition"
+>
+  Adopt Now
+</button>
 
 </div>
 
@@ -148,3 +177,6 @@ export default function PetDetails({ params }) {
     
   );
 }
+
+
+
