@@ -10,35 +10,33 @@ import { signUp } from "@/lib/auth-client";
 export default function RegisterPage() {
   const router = useRouter();
 
-  const [name, setName] = useState("");
+const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [photo, setPhoto] = useState("");
-  const [password, setPassword] = useState("");
+const [photo, setPhoto] = useState("");
+const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // REGISTER
+  
   const handleRegister = async (e) => {
-    e.preventDefault();
+e.preventDefault();
 
-    // PASSWORD VALIDATION
+   
     if (password.length < 6) {
-      return toast.error(
+    return toast.error(
         "Password must be at least 6 characters"
       );
     }
 
     if (!/[A-Z]/.test(password)) {
       return toast.error(
-        "Password needs one uppercase letter"
+     "Password needs one uppercase letter"
       );
     }
-
     if (!/[a-z]/.test(password)) {
-      return toast.error(
+    return toast.error(
         "Password needs one lowercase letter"
       );
     }
-
     if (password !== confirmPassword) {
       return toast.error(
         "Passwords do not match"
@@ -52,15 +50,17 @@ export default function RegisterPage() {
         password,
         name,
         image: photo,
+      },{
+        // autoSignIn:false
       });
 
-      toast.success("Registration successful");
+ toast.success("Registration successful");
 
-      router.push("/login");
+router.push("/login");
 
-    } catch (error) {
+ } catch (error) {
 
-      toast.error("Registration failed");
+     toast.error("Registration failed");
 
     }
   };
@@ -79,7 +79,7 @@ export default function RegisterPage() {
           className="space-y-4"
         >
 
-          {/* NAME */}
+      
           <input
             type="text"
             placeholder="Name"
@@ -91,7 +91,7 @@ export default function RegisterPage() {
             required
           />
 
-          {/* EMAIL */}
+        
           <input
             type="email"
             placeholder="Email"
@@ -103,7 +103,7 @@ export default function RegisterPage() {
             required
           />
 
-          {/* PHOTO URL */}
+         
           <input
             type="text"
             placeholder="Photo URL"
@@ -114,7 +114,7 @@ export default function RegisterPage() {
             }
           />
 
-          {/* PASSWORD */}
+     
           <input
             type="password"
             placeholder="Password"
@@ -126,7 +126,7 @@ export default function RegisterPage() {
             required
           />
 
-          {/* CONFIRM PASSWORD */}
+       
           <input
             type="password"
             placeholder="Confirm Password"
@@ -138,7 +138,7 @@ export default function RegisterPage() {
             required
           />
 
-          {/* BUTTON */}
+       
           <button
             type="submit"
             className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition"
@@ -148,7 +148,7 @@ export default function RegisterPage() {
 
         </form>
 
-        {/* LOGIN LINK */}
+     
         <p className="text-center mt-5 text-gray-600">
           Already have an account?{" "}
           <Link

@@ -89,7 +89,7 @@ export default function DashboardLayout({ children }) {
       )}
 
       {/* Content */}
-      <div className="flex-1 bg-gray-100 p-4 md:p-8 md:ml-64 mt-14 md:mt-0">
+      <div className="flex-1 bg-gray-100 p-4 md:p-8 md:ml-14 mt-14 md:mt-0">
 
         {children}
 
