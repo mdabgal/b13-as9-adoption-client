@@ -6,9 +6,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import DeleteModal from "@/components/DeleteModal";
+import toast from "react-hot-toast";
 
 export default function MyListingsPage() {
   const [pets, setPets] = useState([]);
+   const [isOpen, setIsOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
     fetch("http://localhost:8000/pets")
@@ -16,8 +20,35 @@ export default function MyListingsPage() {
       .then((data) => setPets(data));
   }, []);
 
+const handleDelete = async () => {
+  try {
+    const res = await fetch(`http://localhost:8000/pets/${deleteId}`, {
+      method: "DELETE",
+    });
+
+    const data = await res.json();
+
+    console.log("DELETE RESPONSE:", data);
+
+    if (res.ok && data.success) {
+      toast.success("Deleted successfully!");
+
+      setPets((prev) =>
+        prev.filter((p) => p._id !== deleteId)
+      );
+    } else {
+      toast.error(data.message || "Delete failed!");
+    }
+  } catch (error) {
+    console.log(error);
+    toast.error("Server error!");
+  }
+
+  setIsOpen(false);
+};
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-6">
+    <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-10 py-6">
 
    
       <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-6">
@@ -75,11 +106,16 @@ export default function MyListingsPage() {
                   </button>
                 </Link>
 
-               
-                <button className="w-full flex items-center justify-center gap-2 bg-rose-500 text-white py-2 rounded-xl text-sm hover:bg-rose-600 transition">
-                  <FaTrash /> Delete
-                </button>
-
+               <button
+  onClick={() => {
+    setDeleteId(pet._id);
+    setIsOpen(true);
+  }}
+  className="bg-red-600 text-white px-3 py-2 rounded-lg"
+>
+  Delete
+</button>
+                
               </div>
 
             </div>
@@ -88,6 +124,12 @@ export default function MyListingsPage() {
         ))}
 
       </div>
+
+     <DeleteModal
+  isOpen={isOpen}
+  onClose={() => setIsOpen(false)}
+  onConfirm={handleDelete}
+/>
     </div>
   );
 }

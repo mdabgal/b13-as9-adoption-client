@@ -30,7 +30,7 @@ const [message, setMessage] = useState("");
     const request = {
       petId: pet._id,
       petName: pet.name,
-      userEmail: "demo@gmail.com",
+      userEmail: pet.email,
       pickupDate:  pickupDate,
       message: message,
       status: "pending",
@@ -174,7 +174,7 @@ const [message, setMessage] = useState("");
   />
 
   <input
-    value="demo@gmail.com"
+    value={pet.ownerEmail || ""}
      readOnly
     className="w-full p-2 border rounded-lg mb-3"
   />
