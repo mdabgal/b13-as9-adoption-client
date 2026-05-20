@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { AiOutlineClose } from "react-icons/ai";
 
 export default function DashboardLayout({ children }) {
 
@@ -21,7 +23,7 @@ export default function DashboardLayout({ children }) {
         </h1>
 
         <button onClick={() => setOpen(true)} className="text-2xl">
-          ☰
+         <RxHamburgerMenu />
         </button>
 
       </div>
@@ -36,7 +38,7 @@ export default function DashboardLayout({ children }) {
        
         <div className="md:hidden flex justify-end mb-4">
           <button onClick={() => setOpen(false)} className="text-2xl">
-            ✕
+           <AiOutlineClose />
           </button>
         </div>
 

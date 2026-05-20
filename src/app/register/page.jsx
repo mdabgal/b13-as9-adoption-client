@@ -51,7 +51,7 @@ e.preventDefault();
         name,
         image: photo,
       },{
-        // autoSignIn:false
+        
       });
 
  toast.success("Registration successful");
@@ -82,10 +82,10 @@ router.push("/login");
       
           <input
             type="text"
-            placeholder="Name"
-            className="w-full border p-3 rounded-xl"
+         placeholder="Name"
+          className="w-full border p-3 rounded-xl"
             value={name}
-            onChange={(e) =>
+          onChange={(e) =>
               setName(e.target.value)
             }
             required
@@ -93,44 +93,39 @@ router.push("/login");
 
         
           <input
-            type="email"
+          type="email"
             placeholder="Email"
-            className="w-full border p-3 rounded-xl"
+         className="w-full border p-3 rounded-xl"
             value={email}
-            onChange={(e) =>
+          onChange={(e) =>
               setEmail(e.target.value)
             }
             required
           />
-
          
           <input
             type="text"
-            placeholder="Photo URL"
+        placeholder="Photo URL"
             className="w-full border p-3 rounded-xl"
             value={photo}
-            onChange={(e) =>
+          onChange={(e) =>
               setPhoto(e.target.value)
             }
           />
-
-     
           <input
             type="password"
             placeholder="Password"
-            className="w-full border p-3 rounded-xl"
+         className="w-full border p-3 rounded-xl"
             value={password}
             onChange={(e) =>
               setPassword(e.target.value)
             }
             required
           />
-
-       
           <input
-            type="password"
+           type="password"
             placeholder="Confirm Password"
-            className="w-full border p-3 rounded-xl"
+          className="w-full border p-3 rounded-xl"
             value={confirmPassword}
             onChange={(e) =>
               setConfirmPassword(e.target.value)

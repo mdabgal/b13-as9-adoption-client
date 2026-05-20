@@ -61,7 +61,7 @@ export default function LoginPage() {
 
         <form onSubmit={handleLogin} className="space-y-4">
 
-          {/* EMAIL */}
+        
           <input
             type="email"
             placeholder="Email"
@@ -71,7 +71,7 @@ export default function LoginPage() {
             required
           />
 
-          {/* PASSWORD */}
+         
           <input
             type="password"
             placeholder="Password"
@@ -81,7 +81,6 @@ export default function LoginPage() {
             required
           />
 
-          {/* BUTTON */}
           <button
             type="submit"
             disabled={loading}
@@ -104,7 +103,7 @@ export default function LoginPage() {
 </button>
 
 
-        {/* REGISTER LINK */}
+       
         <p className="text-center mt-5 text-gray-600">
           Don’t have an account?{" "}
           <Link href="/register" className="text-green-600 font-semibold">

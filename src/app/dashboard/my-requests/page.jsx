@@ -1,141 +1,248 @@
+
+
+
+
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import { useSession } from "@/lib/auth-client";
+// import toast from "react-hot-toast";
+// import { Trash2, Calendar, PawPrint } from "lucide-react"; // আইকন ব্যবহারের জন্য
+
+// export default function MyRequestsPage() {
+//   const { data: session } = useSession();
+//   const [requests, setRequests] = useState([]);
+//   const [loading, setLoading] = useState(true);
+
+  
+//   useEffect(() => {
+//     if (session?.user?.email) {
+//       fetch(`http://localhost:8000/requests?userEmail=${session.user.email}`)
+//         .then((res) => res.json())
+//         .then((data) => {
+//           setRequests(data);
+//           setLoading(false);
+//         })
+//         .catch(() => {
+//           toast.error("Failed to load requests");
+//           setLoading(false);
+//         });
+//     }
+//   }, [session?.user?.email]);
+
+  
+//   const handleDelete = async (id) => {
+//     if (!confirm("Are you sure you want to cancel this request?")) return;
+
+//     try {
+//       const res = await fetch(`http://localhost:8000/requests/${id}`, {
+//         method: "DELETE",
+//       });
+//       if (res.ok) {
+//         toast.success("Request cancelled successfully");
+//         setRequests(requests.filter((req) => req._id !== id));
+//       }
+//     } catch (error) {
+//       toast.error("Could not delete request");
+//     }
+//   };
+
+//   if (loading) return <p className="text-center py-20 animate-pulse text-lg">Loading your requests...</p>;
+
+//   return (
+//     <div className="max-w-5xl mx-auto p-6 min-h-screen">
+//       <div className="flex items-center gap-3 mb-8">
+//         <PawPrint className="text-green-600 w-8 h-8" />
+//         <h1 className="text-3xl font-bold text-gray-800">My Adoption Requests</h1>
+//       </div>
+
+//       {requests.length === 0 ? (
+//         <div className="text-center bg-gray-50 rounded-2xl py-20 border-2 border-dashed">
+//           <p className="text-gray-500 text-lg">You haven't applied to adopt any pets yet.</p>
+//         </div>
+//       ) : (
+//         <div className="grid gap-6">
+//           {requests.map((req) => (
+//             <div 
+//               key={req._id} 
+//               className="bg-white border border-gray-100 shadow-md hover:shadow-lg transition-shadow rounded-2xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+//             >
+//               <div className="space-y-2">
+//                 <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+//                   {req.petName}
+//                 </h3>
+//                 <div className="flex items-center gap-4 text-sm text-gray-500">
+//                   <span className="flex items-center gap-1">
+//                     <Calendar size={14} /> Pickup: {req.pickupDate}
+//                   </span>
+//                   <span className="bg-gray-100 px-2 py-1 rounded">ID: {req.petId?.slice(-6)}</span>
+//                 </div>
+//                 {req.message && (
+//                   <p className="text-gray-600 text-sm italic mt-2 border-l-4 border-green-200 pl-3">
+//                     "{req.message}"
+//                   </p>
+//                 )}
+//               </div>
+
+//               <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+//                 <span className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${
+//                   req.status === 'approved' ? 'bg-green-100 text-green-700' : 
+//                   req.status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'
+//                 }`}>
+//                   {req.status || 'pending'}
+//                 </span>
+
+//                 {/* শুধু পেন্ডিং থাকলেই ডিলিট বাটন দেখাবে */}
+//                 {req.status === "pending" && (
+//                   <button 
+//                     onClick={() => handleDelete(req._id)}
+//                     className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
+//                     title="Cancel Request"
+//                   >
+//                     <Trash2 size={20} />
+//                   </button>
+//                 )}
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
+
+
 "use client";
 
 import { useEffect, useState } from "react";
-import { FaCalendarAlt } from "react-icons/fa";
+import { useSession } from "@/lib/auth-client";
 import toast from "react-hot-toast";
+import { Trash2, Calendar, PawPrint } from "lucide-react";
+import DeleteModal from "@/components/DeleteModal";
 
 export default function MyRequestsPage() {
+  const { data: session } = useSession();
   const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  // মোডাল কন্ট্রোল করার জন্য স্টেট
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
+  // ইউজারের নিজের পাঠানো রিকোয়েস্টগুলো আনা
   useEffect(() => {
-    fetch("http://localhost:8000/requests")
-      .then((res) => res.json())
-      .then((data) => setRequests(data))
-      .catch(() => toast.error("Failed to load requests"));
-  }, []);
+    if (session?.user?.email) {
+      fetch(`http://localhost:8000/requests?userEmail=${session.user.email}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setRequests(data);
+          setLoading(false);
+        })
+        .catch(() => {
+          toast.error("Failed to load requests");
+          setLoading(false);
+        });
+    }
+  }, [session?.user?.email]);
 
-  // APPROVE
-  const handleApprove = async (id) => {
-    const res = await fetch(`http://localhost:8000/requests/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status: "approved" }),
-    });
+  // ২. ডিলিট বাটনে ক্লিক করলে মোডাল ওপেন করার ফাংশন
+  const openDeleteModal = (id) => {
+    setSelectedId(id);
+    setIsModalOpen(true);
+  };
 
-    if (res.ok) {
-      toast.success("Request Approved");
+  // ৩. মোডাল থেকে 'Delete' বাটনে চাপ দিলে এই আসল ডিলিট ফাংশনটি রান হবে
+  const handleConfirmDelete = async () => {
+    if (!selectedId) return;
 
-      setRequests((prev) =>
-        prev.map((r) =>
-          r._id === id ? { ...r, status: "approved" } : r
-        )
-      );
-    } else {
-      toast.error("Failed to approve");
+    try {
+      const res = await fetch(`http://localhost:8000/requests/${selectedId}`, {
+        method: "DELETE",
+      });
+      
+      if (res.ok) {
+        toast.success("Request cancelled successfully!");
+        setRequests(requests.filter((req) => req._id !== selectedId));
+      } else {
+        toast.error("Could not delete request");
+      }
+    } catch (error) {
+      toast.error("Something went wrong!");
+    } finally {
+      // কাজ শেষে মোডাল বন্ধ এবং আইডি ক্লিয়ার
+      setIsModalOpen(false);
+      setSelectedId(null);
     }
   };
 
-  // REJECT
-  const handleReject = async (id) => {
-    const res = await fetch(`http://localhost:8000/requests/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ status: "rejected" }),
-    });
-
-    if (res.ok) {
-      toast.success("Request Rejected");
-
-      setRequests((prev) =>
-        prev.map((r) =>
-          r._id === id ? { ...r, status: "rejected" } : r
-        )
-      );
-    } else {
-      toast.error("Failed to reject");
-    }
-  };
+  if (loading) return <p className="text-center py-20 animate-pulse text-lg">Loading your requests...</p>;
 
   return (
-    <div className="max-w-7xl  mx-auto px-4 border border border-gray-50 shadow py-6">
+    <div className="max-w-5xl mx-auto p-6 min-h-screen">
+      <div className="flex items-center gap-3 mb-8">
+        <PawPrint className="text-green-600 w-8 h-8" />
+        <h1 className="text-3xl font-bold text-gray-800">My Adoption Requests</h1>
+      </div>
 
-      <h1 className="text-3xl font-bold mb-6">
-        My Requests
-      </h1>
+      {requests.length === 0 ? (
+        <div className="text-center bg-gray-50 rounded-2xl py-20 border-2 border-dashed">
+          <p className="text-gray-500 text-lg">You haven't applied to adopt any pets yet.</p>
+        </div>
+      ) : (
+        <div className="grid gap-6">
+          {requests.map((req) => (
+            <div 
+              key={req._id} 
+              className="bg-white border border-gray-100 shadow-md hover:shadow-lg transition-shadow rounded-2xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+            >
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                  {req.petName}
+                </h3>
+                <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <span className="flex items-center gap-1">
+                    <Calendar size={14} /> Pickup: {req.pickupDate}
+                  </span>
+                  <span className="bg-gray-100 px-2 py-1 rounded">ID: {req.petId?.slice(-6)}</span>
+                </div>
+                {req.message && (
+                  <p className="text-gray-600 text-sm italic mt-2 border-l-4 border-green-200 pl-3">
+                    "{req.message}"
+                  </p>
+                )}
+              </div>
 
-      {requests.length === 0 && (
-        <p className="text-gray-500">No requests found</p>
+              <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+                <span className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${
+                  req.status === 'approved' ? 'bg-green-100 text-green-700' : 
+                  req.status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'
+                }`}>
+                  {req.status || 'pending'}
+                </span>
+
+                {/* শুধু পেন্ডিং থাকলেই ডিলিট বাটন দেখাবে */}
+                {req.status === "pending" && (
+                  <button 
+                    onClick={() => openDeleteModal(req._id)} // ৪. এখানে আপনার মোডাল ট্রিগার হবে
+                    className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                    title="Cancel Request"
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-6 lg:px-10 border border-gray-100 shadow-2xl ">
-
-        {requests.map((req) => (
-          <div
-            key={req._id}
-            className="bg-white border border-gray-100 shadow-2xl rounded-xl  p-4"
-          > 
-
-          
-            <h2 className="text-xl font-bold text-gray-800">
-              {req.petName}
-            </h2>
-
-          
-            <p className="text-gray-600">
-              {req.userEmail}
-            </p>
-
-            <p className="flex items-center gap-2 mt-2 text-gray-600">
-              <FaCalendarAlt />
-              {req.pickupDate}
-            </p>
-
-            <p className="mt-2 text-gray-700">
-              {req.message}
-            </p>
-
-        
-            <span
-              className={`inline-block mt-3 px-3 py-1 rounded-full text-sm ${
-                req.status === "approved"
-                  ? "bg-green-100 text-green-600"
-                  : req.status === "rejected"
-                  ? "bg-red-100 text-red-600"
-                  : "bg-yellow-100 text-yellow-600"
-              }`}
-            >
-              {req.status || "pending"}
-            </span>
-
-         
-            {req.status === "pending" && (
-              <div className="flex gap-2 mt-4">
-
-                <button
-                  onClick={() => handleApprove(req._id)}
-                  className="bg-green-600 text-white px-3 py-1 rounded-lg"
-                >
-                  Approve
-                </button>
-
-                <button
-                  onClick={() => handleReject(req._id)}
-                  className="bg-red-600 text-white px-3 py-1 rounded-lg"
-                >
-                  Reject
-                </button>
-
-              </div>
-            )}
-
-          </div>
-        ))}
-
-      </div>
+      {/* 🛠️ ৫. আপনার তৈরি করা DeleteModal কম্পোনেন্ট এখানে কল করা হলো */}
+      <DeleteModal
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onConfirm={handleConfirmDelete} 
+      />
     </div>
   );
 }
