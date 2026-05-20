@@ -1,21 +1,10 @@
 
 
-
-
-
-
-
-
-
-
-
-
-
 "use client";
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPaw } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-client";
@@ -26,7 +15,33 @@ export default function Navbar() {
 
   const { data: session, isLoading } = useSession();
 
+useEffect(() => {
+    if (session?.user?.email) {
+      fetch("http://localhost:8000/jwt", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: session.user.email }),
+        credentials: "include"
+      })
+        .then((res) => res.json())
+        .then((data) => console.log("JWT Init:", data.message))
+        .catch((err) => console.error("JWT Error:", err));
+    }
+  }, [session?.user?.email]);
+
   const handleLogout = async () => {
+    try {
+     
+      await fetch("http://localhost:8000/logout", {
+        method: "POST"
+      });
+    } catch (error) {
+      console.error("Backend logout error:", error);
+    }
+
+   
     await signOut();
     router.push("/login");
   };
