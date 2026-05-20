@@ -30,9 +30,12 @@ export default function PetDetails({ params }) {
   const petOwnerEmail = pet?.ownerEmail || pet?.email;
   
   
-  const isOwner = loggedInUserEmail && petOwnerEmail && loggedInUserEmail === petOwnerEmail;
- 
-  const isAdopted = pet?.adopted === true;
+ const isOwner = loggedInUserEmail && petOwnerEmail && loggedInUserEmail.toLowerCase().trim() === petOwnerEmail.toLowerCase().trim();
+const isAdopted = pet?.status === "adopted";
+
+
+//   const isOwner = loggedInUserEmail === petOwnerEmail;
+// const isAdopted = pet?.adopted === true || pet?.status === "adopted";
 
   const handleAdopt = async () => {
    
@@ -160,17 +163,22 @@ export default function PetDetails({ params }) {
               </button>
             </Link>
 
-            <button
-              onClick={handleAdopt}
-              disabled={isOwner || isAdopted}
-              className={`flex-1 py-3 rounded-xl text-white font-semibold transition ${
-                isOwner || isAdopted 
-                  ? "bg-gray-400 cursor-not-allowed" 
-                  : "bg-green-600 hover:bg-green-700"
-              }`}
-            >
-              {isAdopted ? "Adopted" : isOwner ? "Your Pet" : "Adopt Now"}
-            </button>
+           <button
+  onClick={() => {
+    
+    if (!isOwner && !isAdopted) {
+      document.getElementById("adoption-form")?.scrollIntoView({ behavior: "smooth" });
+    }
+  }}
+  disabled={isOwner || isAdopted}
+  className={`flex-1 py-3 rounded-xl text-white font-semibold transition ${
+    isOwner || isAdopted 
+      ? "bg-gray-400 cursor-not-allowed" 
+      : "bg-green-600 hover:bg-green-700 shadow-md"
+  }`}
+>
+  {isAdopted ? "Adopted" : isOwner ? "Your Pet" : "Adopt Now"}
+</button>
           </div>
 
           {isOwner && (
@@ -182,7 +190,7 @@ export default function PetDetails({ params }) {
       </div>
 
      
-      <div className="max-w-3xl mx-auto mt-10 border border-gray-100 shadow-2xl p-6 rounded-2xl bg-gray-50">
+      <div id="adoption-form" className="max-w-3xl mx-auto mt-10 border border-gray-100 shadow-2xl p-6 rounded-2xl bg-gray-50">
         <h2 className="text-2xl font-bold mb-4">Adoption Form</h2>
         
         <input
@@ -196,7 +204,7 @@ export default function PetDetails({ params }) {
           className="w-full p-2 border rounded-lg mb-3 bg-gray-100"
         />
         <input
-          value={petOwnerEmail || ""}
+          value={session?.user?.email || ""}
         readOnly
           className="w-full p-2 border rounded-lg mb-3 bg-gray-100"
         />
@@ -232,3 +240,4 @@ export default function PetDetails({ params }) {
     </div>
   );
 }
+
