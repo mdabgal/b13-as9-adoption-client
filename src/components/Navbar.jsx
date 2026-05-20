@@ -104,7 +104,7 @@ useEffect(() => {
             <div className="relative group flex items-center gap-3">
 
               <Image
-                src={session.user?.image || "/user.png"}
+               src={session.user?.image && session.user.image.trim() !== "" ? session.user.image : "https://images.unsplash.com/photo-1544005313-94ddf0286df2"}
                 alt="user"
                 width={35}
                 height={35}
