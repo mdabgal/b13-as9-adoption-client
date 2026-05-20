@@ -72,6 +72,7 @@ const Hero = () => {
                                 src={heroImg}
                                 alt='hero Img'
                                 width={500}
+                                priority={true}
                                 height={200}
 
                                 className='w-full h-[300px] md:h-[500px] lg:h-[600px] object-cover rounded-2xl'

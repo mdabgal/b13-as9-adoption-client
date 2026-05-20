@@ -40,7 +40,7 @@ export default function AddPetPage() {
       const data = await res.json();
 
       if (data.insertedId) {
-        setSuccess("✅ Pet added successfully!");
+        setSuccess(" Pet added successfully!");
         form.reset();
       }
 
@@ -70,44 +70,37 @@ export default function AddPetPage() {
           onSubmit={handleAddPet}
           className="grid md:grid-cols-2 gap-6"
         >
-
       
-          <input
+     <input
             type="text"
-            name="name"
+         name="name"
             placeholder="Pet Name"
+         required
+            className="border p-3 rounded-xl"
+          />
+        <input
+            type="text"
+           name="species"
+          placeholder="Species"
             required
             className="border p-3 rounded-xl"
           />
-
-    
           <input
             type="text"
-            name="species"
-            placeholder="Species"
+           name="breed"
+           placeholder="Breed"
             required
             className="border p-3 rounded-xl"
           />
-
-  
-          <input
-            type="text"
-            name="breed"
-            placeholder="Breed"
-            required
-            className="border p-3 rounded-xl"
-          />
-
- 
-          <input
+        <input
             type="number"
             name="age"
-            placeholder="Age"
+               placeholder="Age"
             required
             className="border p-3 rounded-xl"
           />
 
-         
+              
           <select
             name="gender"
             className="border p-3 rounded-xl"
@@ -115,67 +108,58 @@ export default function AddPetPage() {
             <option>Male</option>
             <option>Female</option>
           </select>
-
-      
-          <input
+          
+           <input
             type="text"
             name="image"
-            placeholder="Image URL"
+         placeholder="Image URL"
             required
             className="border p-3 rounded-xl"
           />
-
-         
           <input
-            type="text"
+          type="text"
             name="health"
-            placeholder="Health Status"
-            required
+          placeholder="Health Status"
+          required
             className="border p-3 rounded-xl"
           />
-
-       
           <input
             type="text"
-            name="vaccination"
+          name="vaccination"
             placeholder="Vaccination Status"
-            required
+           required
             className="border p-3 rounded-xl"
           />
 
-        
-          <input
+       <input
             type="text"
-            name="location"
+         name="location"
             placeholder="Location"
             required
             className="border p-3 rounded-xl"
           />
 
-         
           <input
             type="number"
             name="fee"
-            placeholder="Adoption Fee"
+        placeholder="Adoption Fee"
             required
             className="border p-3 rounded-xl"
           />
-
-       
           <input
-            type="email"
+      type="email"
             name="email"
             placeholder="Owner Email"
             required
             className="border p-3 rounded-xl md:col-span-2"
-          />
+         />
 
       
-          <textarea
-            name="description"
-            placeholder="Pet Description"
+     <textarea
+           name="description"
+           placeholder="Pet Description"
             rows="5"
-            required
+           required
             className="border p-3 rounded-xl md:col-span-2"
           ></textarea>
 

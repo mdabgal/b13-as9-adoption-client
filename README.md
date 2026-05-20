@@ -1,3 +1,108 @@
+
+*Purpose
+PetAdoption is a full-stack MERN platform designed to simplify the pet adoption process. This platform allows users to browse available pets, view detailed profiles, submit adoption requests, and manage their personal requests. Pet owners can manage their listings and handle adoption requests efficiently.
+
+ * Client: https://your-client-live-url.com
+* Server: https://your-server-live-url.com
+*Features
+Dynamic Pet Browsing: Explore pets with advanced search, species-based filtering, and sorting using MongoDB operators.
+
+Secure Authentication: User-friendly registration/login with Google Auth and JWT-based secure session management via HTTPOnly cookies.
+
+User Dashboard: A dedicated space for users to manage their adoption requests and view status updates.
+
+Pet Owner Management: Owners can add, update, delete pet listings, and approve/reject adoption requests through a modal.
+
+Real-time UX: Smooth animations with Framer Motion and modern toast notifications for a premium user experience.
+
+Wishlist Feature: Users can save their favorite pets to a personal wishlist using local storage.
+
+NPM Packages Used
+Frontend: next, react, framer-motion, lucide-react, react-hot-toast, axios, next-themes
+
+Backend: express, mongodb, jsonwebtoken, cookie-parser, cors, dotenv
+
+Project Setup
+Clone the repository:
+
+Bash
+git clone https://github.com/your-username/pet-adoption-client.git
+cd pet-adoption-client
+
+Install dependencies:
+
+Bash
+npm install
+Environment Variables:
+Create a .env.local file in the root directory:
+
+Code snippet
+MONGODB_URI=MONGODB_URI
+
+JWT_SECRET=JWT_SECRET
+NEXT_PUBLIC_API_URL=http://localhost:8000
+
+
+Run the project:
+
+Bash
+npm run dev
+Other Rules & Compliance
+No Lorem Ipsum: All content is unique and relevant to the project.
+
+UI Notifications: Replaced default alert() with modern react-hot-toast.
+
+Deployment: Deployed on Vercel/Render with optimized performance.
+
+Error Handling: Implemented custom 404 page and robust loading states.
+
+Responsive Design: Fully mobile, tablet, and desktop friendly.
+
+Secure Data: MongoDB credentials are protected via environment variables.
+
+Built with  by [jannati]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

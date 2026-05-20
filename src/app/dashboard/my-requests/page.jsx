@@ -1,17 +1,19 @@
 
 
-
-
 "use client";
 
 import { useEffect, useState } from "react";
 import { useSession } from "@/lib/auth-client";
 import toast from "react-hot-toast";
 import { Trash2, Calendar, PawPrint } from "lucide-react"; // আইকন ব্যবহারের জন্য
+import DeleteModal from "@/components/DeleteModal";
+import Link from "next/link";
 
 export default function MyRequestsPage() {
   const { data: session } = useSession();
   const [requests, setRequests] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+const [deleteId, setDeleteId] = useState(null);
   const [loading, setLoading] = useState(true);
 
   
@@ -31,21 +33,33 @@ export default function MyRequestsPage() {
   }, [session?.user?.email]);
 
   
-  const handleDelete = async (id) => {
-    if (!confirm("Are you sure you want to cancel this request?")) return;
 
-    try {
-      const res = await fetch(`http://localhost:8000/requests/${id}`, {
+
+const handleDelete = async () => {
+  try {
+    const res = await fetch(
+      `http://localhost:8000/requests/${deleteId}`,
+      {
         method: "DELETE",
-      });
-      if (res.ok) {
-        toast.success("Request cancelled successfully");
-        setRequests(requests.filter((req) => req._id !== id));
       }
-    } catch (error) {
-      toast.error("Could not delete request");
+    );
+
+    if (res.ok) {
+      toast.success("Request cancelled successfully");
+
+      setRequests((prev) =>
+        prev.filter((req) => req._id !== deleteId)
+      );
+    } else {
+      toast.error("Delete failed");
     }
-  };
+  } catch (error) {
+    toast.error("Could not delete request");
+  }
+
+  setIsOpen(false);
+};
+
 
   if (loading) return <p className="text-center py-20 animate-pulse text-lg">Loading your requests...</p>;
 
@@ -92,21 +106,41 @@ export default function MyRequestsPage() {
                   {req.status || 'pending'}
                 </span>
 
-                {/* শুধু পেন্ডিং থাকলেই ডিলিট বাটন দেখাবে */}
+
+                  <Link href={`/pets/${req.petId}`}>
+    <button className="bg-green-400 text-white px-4 py-2 rounded-xl hover:bg-green-600 text-sm">
+      View
+    </button>
+  </Link>
+
+
+                
                 {req.status === "pending" && (
-                  <button 
-                    onClick={() => handleDelete(req._id)}
-                    className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
-                    title="Cancel Request"
-                  >
-                    <Trash2 size={20} />
-                  </button>
+                <button
+  onClick={() => {
+    setDeleteId(req._id);
+    setIsOpen(true);
+  }}
+  className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors"
+  title="Cancel Request"
+>
+  <Trash2 size={20} />
+</button>
                 )}
               </div>
             </div>
           ))}
         </div>
       )}
+
+      <DeleteModal
+  isOpen={isOpen}
+  onClose={() => setIsOpen(false)}
+  onConfirm={handleDelete}
+/>
     </div>
+
+
+
   );
 }
