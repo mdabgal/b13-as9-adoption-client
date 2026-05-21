@@ -4,9 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
-
-import { authClient, signIn } from "@/lib/auth-client";
 import { FcGoogle } from "react-icons/fc";
+
+import { signIn } from "@/lib/auth-client";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,51 +17,45 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     setLoading(true);
 
     try {
-   const res =   await signIn.email({
+      const res = await signIn.email({
         email,
         password,
       });
-      console.log(res)
 
-
-    if (!res?.error) {
-      toast.success("Login successful");
-      router.push("/");
-    } else {
-      toast.error("place Register");
-    }
-
-     
-     } catch (error) {
- 
- toast.error("Invalid email or password");
-} finally {
+      if (!res?.error) {
+        toast.success("Login successful");
+        router.push("/");
+      } else {
+        toast.error("Invalid credentials");
+      }
+    } catch (err) {
+      toast.error("Login failed");
+    } finally {
       setLoading(false);
     }
   };
 
-  const handleGoogleSignin= async() => {
-    await authClient.signIn.social({
-        provider: "google"
-    })
-  }
+  const handleGoogleSignin = async () => {
+    try {
+      await signIn.social({
+        provider: "google",
+      });
+    } catch (err) {
+      toast.error("Google login failed");
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-
       <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
-
         <h1 className="text-3xl font-bold text-center mb-6">
           User Login
         </h1>
 
         <form onSubmit={handleLogin} className="space-y-4">
-
-        
           <input
             type="email"
             placeholder="Email"
@@ -71,7 +65,6 @@ export default function LoginPage() {
             required
           />
 
-         
           <input
             type="password"
             placeholder="Password"
@@ -88,39 +81,26 @@ export default function LoginPage() {
           >
             {loading ? "Logging in..." : "Login"}
           </button>
-
         </form>
 
-        <div className="text-center my-2 text-gray-400">OR</div>
+        <div className="text-center my-3 text-gray-400">OR</div>
 
-<button
-  type="button"
-  onClick={handleGoogleSignin}
-  className="w-full flex items-center justify-center gap-2 border border-gray-200 shadow-2xl  py-3 rounded-xl mt-3 hover:bg-gray-100 transition"
->
-  <FcGoogle size={22} />
-  Continue with Google
-</button>
+        <button
+          type="button"
+          onClick={handleGoogleSignin}
+          className="w-full flex items-center justify-center gap-2 border py-3 rounded-xl hover:bg-gray-100 transition"
+        >
+          <FcGoogle size={22} />
+          Continue with Google
+        </button>
 
-
-       
         <p className="text-center mt-5 text-gray-600">
           Don’t have an account?{" "}
           <Link href="/register" className="text-green-600 font-semibold">
             Register
           </Link>
         </p>
-
-
-       
-
-
-
       </div>
     </div>
   );
 }
-
-
-
-
