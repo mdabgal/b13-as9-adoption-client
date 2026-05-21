@@ -19,7 +19,7 @@ const [deleteId, setDeleteId] = useState(null);
   
   useEffect(() => {
     if (session?.user?.email) {
-      fetch(`http://localhost:8000/requests?userEmail=${session.user.email}`)
+      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/requests?userEmail=${session.user.email}`)
         .then((res) => res.json())
         .then((data) => {
           setRequests(data);
@@ -38,7 +38,7 @@ const [deleteId, setDeleteId] = useState(null);
 const handleDelete = async () => {
   try {
     const res = await fetch(
-      `http://localhost:8000/requests/${deleteId}`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/requests/${deleteId}`,
       {
         method: "DELETE",
       }

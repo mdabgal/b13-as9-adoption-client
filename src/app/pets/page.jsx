@@ -20,7 +20,7 @@ const AllPetsPage = () => {
   useEffect(() => {
     setLoading(true);
    
-    fetch(`http://localhost:8000/pets?search=${search}&species=${species}`)
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets?search=${search}&species=${species}`)
       .then((res) => res.json())
       .then((data) => {
         setPets(data);

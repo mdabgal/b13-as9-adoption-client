@@ -9,7 +9,7 @@ export default function FeaturedPets() {
 
   useEffect(() => {
 
-    fetch("http://localhost:8000/pets")
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets`)
       .then((res) => res.json())
       .then((data) => setPets(data));
 

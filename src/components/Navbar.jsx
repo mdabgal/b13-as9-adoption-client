@@ -17,7 +17,7 @@ export default function Navbar() {
 
 useEffect(() => {
     if (session?.user?.email) {
-      fetch("http://localhost:8000/jwt", {
+      fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/jwt`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,7 +34,7 @@ useEffect(() => {
   const handleLogout = async () => {
     try {
      
-      await fetch("http://localhost:8000/logout", {
+      await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}`, {
         method: "POST"
       });
     } catch (error) {

@@ -17,7 +17,7 @@ export default function PetDetails({ params }) {
 
   useEffect(() => {
     const fetchPet = async () => {
-      const res = await fetch(`http://localhost:8000/pets/${id}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets/${id}`);
       const data = await res.json();
       setPet(data);
     };
@@ -61,7 +61,7 @@ const isAdopted = pet?.status === "adopted";
     };
 
     try {
-      const res = await fetch("http://localhost:8000/requests", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/requests`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

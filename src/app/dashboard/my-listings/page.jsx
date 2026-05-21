@@ -30,7 +30,7 @@ export default function MyListingsPage() {
 
       try {
        
-        const statsRes = await fetch(`http://localhost:8000/owner-stats?email=${email}`, {
+        const statsRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/owner-stats?email=${email}`, {
           credentials: "include" 
      });
         const statsData = await statsRes.json();
@@ -41,7 +41,7 @@ export default function MyListingsPage() {
            console.log("Stats error message:", statsData.message);
         }
 
-        const petsRes = await fetch(`http://localhost:8000/pets?ownerEmail=${email}`);
+        const petsRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets?ownerEmail=${email}`);
         const petsData = await petsRes.json();
         setPets(petsData);
       } catch (error) {
@@ -61,7 +61,7 @@ export default function MyListingsPage() {
   const openRequestsModal = async (petId) => {
     try {
      
-      const res = await fetch(`http://localhost:8000/owner-requests?email=${session?.user?.email}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/owner-requests?email=${session?.user?.email}`);
       const allRequests = await res.json();
       const petRequests = allRequests.filter((req) => req.petId === petId);
       
@@ -75,7 +75,7 @@ export default function MyListingsPage() {
  
   const handleRequestStatus = async (requestId, petId, newStatus) => {
     try {
-      const res = await fetch(`http://localhost:8000/requests/${requestId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/requests/${requestId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus, petId: petId }),
@@ -111,7 +111,7 @@ export default function MyListingsPage() {
   const handleConfirmDeletePet = async () => {
     if (!selectedPetId) return;
     try {
-      const res = await fetch(`http://localhost:8000/pets/${selectedPetId || selectedPetId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets/${selectedPetId || selectedPetId}`, {
         method: "DELETE",
       });
       if (res.ok) {

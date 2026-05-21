@@ -15,7 +15,7 @@ export default function UpdatePetPage() {
  
   useEffect(() => {
 
-    fetch(`http://localhost:8000/pets/${id}`)
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets/${id}`)
       .then((res) => res.json())
       .then((data) => setPet(data));
 
@@ -36,7 +36,7 @@ export default function UpdatePetPage() {
       description: form.description.value,
     };
 
-    const res = await fetch(`http://localhost:8000/pets/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
