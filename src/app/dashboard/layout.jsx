@@ -48,6 +48,17 @@ export default function DashboardLayout({ children }) {
 
         <div className="flex flex-col gap-3">
 
+          <Link href="/dashboard">
+  <button 
+    onClick={() => setOpen(false)} 
+    className={`w-full py-2 rounded-lg ${
+      pathname === "/dashboard" ? "bg-green-600" : "bg-gray-800"
+    }`}
+  >
+    Dashboard Home
+  </button>
+</Link>
+
           <Link href="/dashboard/my-listings">
             <button className={`w-full py-2 rounded-lg ${
               pathname === "/dashboard/my-listings"

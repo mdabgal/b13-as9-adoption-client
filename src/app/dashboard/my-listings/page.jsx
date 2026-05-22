@@ -23,46 +23,43 @@ export default function MyListingsPage() {
   const token = typeof window !== "undefined" ? document.cookie.includes("token") : false;
 
 
-  useEffect(() => {
-    const fetchOwnerData = async () => {
-      const email = session?.user?.email;
-      if (!email) return;
 
-      try {
-       
-        const statsRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/owner-stats?email=${email}`, {
-          credentials: "include" 
-     });
-        const statsData = await statsRes.json();
-        
-        if (statsData.success) {
-            setStats(statsData.stats);
-        } else {
-           console.log("Stats error message:", statsData.message);
-        }
+ useEffect(() => {
+  const fetchOwnerData = async () => {
+    const email = session?.user?.email;
+    if (!email) return;
 
-        const petsRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets?ownerEmail=${email}`);
-        const petsData = await petsRes.json();
-        setPets(petsData);
-      } catch (error) {
-        console.error("Dashboard fetch error:", error);
-        toast.error("Failed to load dashboard data!");
-      } finally {
-        setLoading(false);
-      }
-    };
+    try {
+      const petsRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets?ownerEmail=${email}`);
+      const petsData = await petsRes.json();
+      setPets(petsData);
 
-    if (session?.user?.email) {
-      fetchOwnerData();
+      const total = petsData.length;
+   const available = petsData.filter(pet => pet.status === "available" || pet.status === "Available").length;
+      const adopted = petsData.filter(pet => pet.status === "adopted" || pet.status === "Adopted").length;
+
+
+      setStats({ total, available, adopted });
+
+    } catch (error) {
+      console.error("Dashboard fetch error:", error);
+      toast.error("Failed to load dashboard data!");
+    } finally {
+      setLoading(false);
     }
-  }, [session]);
+  };
 
- 
+  if (session?.user?.email) {
+    fetchOwnerData();
+  }
+}, [session]);
+
+
+
   const openRequestsModal = async (petId) => {
     try {
      
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/owner-requests?email=${session?.user?.email}`);
-      const allRequests = await res.json();
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/owner-requests?email=${session?.user?.email}`);  const allRequests = await res.json();
       const petRequests = allRequests.filter((req) => req.petId === petId);
       
       setCurrentPetRequests(petRequests);
@@ -108,24 +105,66 @@ export default function MyListingsPage() {
     setIsDeleteModalOpen(true);
   };
 
+  // const handleConfirmDeletePet = async () => {
+  //   if (!selectedPetId) return;
+  //   try {
+  //     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets/${selectedPetId || selectedPetId}`, {
+  //       method: "DELETE",
+  // credentials: 'include', 
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+     
+  //     });
+
+  //   //   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets/${selectedPetId}`, {
+  //   //   method: "DELETE",
+     
+  //   //   credentials: 'include', 
+  //   //   headers: {
+  //   //     "Content-Type": "application/json",
+  //   //   },
+  //   // });
+  //     if (res.ok) {
+  //       toast.success("Pet listing deleted successfully!");
+  //       setPets(pets.filter((pet) => pet._id !== selectedPetId));
+  //       setStats(prev => ({ ...prev, total: prev.total - 1 }));
+  //     }
+  //   } catch (error) {
+  //     toast.error("Failed to delete pet!");
+  //   } finally {
+  //     setIsDeleteModalOpen(false);
+  //     setSelectedPetId(null);
+  //   }
+  // };
+
+
   const handleConfirmDeletePet = async () => {
-    if (!selectedPetId) return;
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets/${selectedPetId || selectedPetId}`, {
-        method: "DELETE",
-      });
-      if (res.ok) {
-        toast.success("Pet listing deleted successfully!");
-        setPets(pets.filter((pet) => pet._id !== selectedPetId));
-        setStats(prev => ({ ...prev, total: prev.total - 1 }));
-      }
-    } catch (error) {
-      toast.error("Failed to delete pet!");
-    } finally {
-      setIsDeleteModalOpen(false);
-      setSelectedPetId(null);
+  if (!selectedPetId) return;
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets/${selectedPetId}`, {
+      method: "DELETE",
+      credentials: 'include',
+    });
+
+    if (res.ok) {
+      toast.success("Pet listing deleted successfully!");
+      setPets(pets.filter((pet) => pet._id !== selectedPetId));
+      setStats(prev => ({ ...prev, total: prev.total - 1 }));
+    } else {
+     
+      const errorData = await res.json();
+      console.log("Error details:", errorData);
+      toast.error(`Failed: ${errorData.message || "Unauthorized"}`);
     }
-  };
+  } catch (error) {
+    console.error("Delete error:", error);
+    toast.error("Failed to delete pet!");
+  } finally {
+    setIsDeleteModalOpen(false);
+    setSelectedPetId(null);
+  }
+};
 
   if (loading) return <p className="text-center py-20 text-lg animate-pulse">Loading dashboard...</p>;
 
