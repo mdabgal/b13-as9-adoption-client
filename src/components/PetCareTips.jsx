@@ -6,7 +6,7 @@ export default function PetCareTips() {
     <section className="py-20 bg-gray-800 text-white">
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
 
-        {/* Left Side */}
+      
         <div>
           <h2 className="text-4xl font-bold  mb-4">
             Pet Care Tips
@@ -21,7 +21,6 @@ export default function PetCareTips() {
           </button>
         </div>
 
-        {/* Right Side */}
         <div className="space-y-5">
 
           <div className="flex items-center gap-3 text-gray-700 bg-white p-4 rounded-xl shadow">

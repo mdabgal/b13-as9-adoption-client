@@ -3,9 +3,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSession } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 import toast from "react-hot-toast";
-import { Trash2, Calendar, PawPrint } from "lucide-react"; // আইকন ব্যবহারের জন্য
+import { Trash2, Calendar, PawPrint } from "lucide-react";
 import DeleteModal from "@/components/DeleteModal";
 import Link from "next/link";
 
@@ -34,32 +34,33 @@ const [deleteId, setDeleteId] = useState(null);
 
   
 
-
 const handleDelete = async () => {
   try {
+
+  const token = await authClient.token()
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/requests/${deleteId}`,
       {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token.data.token}` 
+        },
       }
     );
 
     if (res.ok) {
       toast.success("Request cancelled successfully");
-
-      setRequests((prev) =>
-        prev.filter((req) => req._id !== deleteId)
-      );
+      setRequests((prev) => prev.filter((req) => req._id !== deleteId));
     } else {
       toast.error("Delete failed");
     }
   } catch (error) {
     toast.error("Could not delete request");
   }
-
   setIsOpen(false);
 };
-
 
   if (loading) return <p className="text-center py-20 animate-pulse text-lg">Loading your requests...</p>;
 
@@ -87,20 +88,20 @@ const handleDelete = async () => {
                 </h3>
                 <div className="flex items-center gap-4 text-sm text-gray-500">
                   <span className="flex items-center gap-1">
-                    <Calendar size={14} /> Pickup: {req.pickupDate}
+         <Calendar size={14} /> Pickup: {req.pickupDate}
                   </span>
                   <span className="bg-gray-100 px-2 py-1 rounded">ID: {req.petId?.slice(-6)}</span>
                 </div>
                 {req.message && (
-                  <p className="text-gray-600 text-sm italic mt-2 border-l-4 border-green-200 pl-3">
+            <p className="text-gray-600 text-sm italic mt-2 border-l-4 border-green-200 pl-3">
                     "{req.message}"
                   </p>
                 )}
-              </div>
+          </div>
 
               <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
                 <span className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${
-                  req.status === 'approved' ? 'bg-green-100 text-green-700' : 
+           req.status === 'approved' ? 'bg-green-100 text-green-700' : 
                   req.status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'
                 }`}>
                   {req.status || 'pending'}

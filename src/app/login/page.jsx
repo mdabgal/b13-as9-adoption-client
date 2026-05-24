@@ -49,9 +49,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
-        <h1 className="text-3xl font-bold text-center mb-6">
+   <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4">
+     <div className="w-full max-w-md bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-8">
+       <h1 className="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-white">
           User Login
         </h1>
 
@@ -59,7 +59,7 @@ export default function LoginPage() {
           <input
             type="email"
             placeholder="Email"
-            className="w-full border p-3 rounded-xl"
+           className="w-full border p-3 rounded-xl bg-white dark:bg-gray-700 text-black dark:text-white border-gray-300 dark:border-gray-600"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -68,7 +68,7 @@ export default function LoginPage() {
           <input
             type="password"
             placeholder="Password"
-            className="w-full border p-3 rounded-xl"
+          className="w-full border p-3 rounded-xl bg-white dark:bg-gray-700 text-black dark:text-white border-gray-300 dark:border-gray-600"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -83,18 +83,18 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="text-center my-3 text-gray-400">OR</div>
+       <div className="text-center my-3 text-gray-400 dark:text-gray-500">OR</div>
 
         <button
           type="button"
           onClick={handleGoogleSignin}
-          className="w-full flex items-center justify-center gap-2 border py-3 rounded-xl hover:bg-gray-100 transition"
+         className="w-full flex items-center justify-center gap-2 border border-gray-300 dark:border-gray-600 py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition"
         >
           <FcGoogle size={22} />
           Continue with Google
         </button>
 
-        <p className="text-center mt-5 text-gray-600">
+      <p className="text-center mt-5 text-gray-600 dark:text-gray-300">
           Don’t have an account?{" "}
           <Link href="/register" className="text-green-600 font-semibold">
             Register

@@ -29,7 +29,7 @@ Bash
 git clone https://github.com/your-username/pet-adoption-client.git
 cd pet-adoption-client
 
-Install dependencies:
+Install dependencies:npm install react-icons framer-motion react-hot-toast axios better- auth
 
 Bash
 npm install
@@ -43,7 +43,7 @@ JWT_SECRET=JWT_SECRET
 NEXT_PUBLIC_API_URL=NEXT_PUBLIC_SERVER_URL
 
 
-Run the project:
+live link: https://b13-as9-pet-adoption-client.vercel.app
 
 Bash
 npm run dev

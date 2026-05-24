@@ -66,11 +66,11 @@ router.push("/login");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+   <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4">
 
-      <div className="w-full max-w-md bg-white shadow-2xl rounded-2xl p-8">
+  <div className="w-full max-w-md bg-white dark:bg-gray-800 shadow-2xl rounded-2xl p-8">
 
-        <h1 className="text-3xl font-bold text-center mb-6">
+       <h1 className="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-white">
           Register
         </h1>
 
@@ -83,7 +83,7 @@ router.push("/login");
           <input
             type="text"
          placeholder="Name"
-          className="w-full border p-3 rounded-xl"
+        className="w-full border p-3 rounded-xl bg-white dark:bg-gray-700 text-black dark:text-white border-gray-300 dark:border-gray-600"
             value={name}
           onChange={(e) =>
               setName(e.target.value)
@@ -95,7 +95,7 @@ router.push("/login");
           <input
           type="email"
             placeholder="Email"
-         className="w-full border p-3 rounded-xl"
+        className="w-full border p-3 rounded-xl bg-white dark:bg-gray-700 text-black dark:text-white border-gray-300 dark:border-gray-600"
             value={email}
           onChange={(e) =>
               setEmail(e.target.value)
@@ -106,7 +106,7 @@ router.push("/login");
           <input
             type="text"
         placeholder="Photo URL"
-            className="w-full border p-3 rounded-xl"
+           className="w-full border p-3 rounded-xl bg-white dark:bg-gray-700 text-black dark:text-white border-gray-300 dark:border-gray-600"
             value={photo}
           onChange={(e) =>
               setPhoto(e.target.value)
@@ -115,7 +115,7 @@ router.push("/login");
           <input
             type="password"
             placeholder="Password"
-         className="w-full border p-3 rounded-xl"
+       className="w-full border p-3 rounded-xl bg-white dark:bg-gray-700 text-black dark:text-white border-gray-300 dark:border-gray-600"
             value={password}
             onChange={(e) =>
               setPassword(e.target.value)
@@ -125,7 +125,7 @@ router.push("/login");
           <input
            type="password"
             placeholder="Confirm Password"
-          className="w-full border p-3 rounded-xl"
+          className="w-full border p-3 rounded-xl bg-white dark:bg-gray-700 text-black dark:text-white border-gray-300 dark:border-gray-600"
             value={confirmPassword}
             onChange={(e) =>
               setConfirmPassword(e.target.value)
@@ -136,7 +136,7 @@ router.push("/login");
        
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition"
+         className="w-full bg-green-600 dark:bg-green-700 text-white py-3 rounded-xl font-semibold hover:bg-green-700 transition"
           >
             Register
           </button>
@@ -144,7 +144,7 @@ router.push("/login");
         </form>
 
      
-        <p className="text-center mt-5 text-gray-600">
+        <p className="text-center mt-5 text-gray-600 dark:text-gray-300">
           Already have an account?{" "}
           <Link
             href="/login"

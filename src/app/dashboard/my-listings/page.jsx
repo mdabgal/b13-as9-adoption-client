@@ -75,6 +75,7 @@ export default function MyListingsPage() {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/requests/${requestId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
+        credentials: 'include',
         body: JSON.stringify({ status: newStatus, petId: petId }),
       });
       const data = await res.json();
@@ -105,39 +106,7 @@ export default function MyListingsPage() {
     setIsDeleteModalOpen(true);
   };
 
-  // const handleConfirmDeletePet = async () => {
-  //   if (!selectedPetId) return;
-  //   try {
-  //     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets/${selectedPetId || selectedPetId}`, {
-  //       method: "DELETE",
-  // credentials: 'include', 
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-     
-  //     });
-
-  //   //   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/pets/${selectedPetId}`, {
-  //   //   method: "DELETE",
-     
-  //   //   credentials: 'include', 
-  //   //   headers: {
-  //   //     "Content-Type": "application/json",
-  //   //   },
-  //   // });
-  //     if (res.ok) {
-  //       toast.success("Pet listing deleted successfully!");
-  //       setPets(pets.filter((pet) => pet._id !== selectedPetId));
-  //       setStats(prev => ({ ...prev, total: prev.total - 1 }));
-  //     }
-  //   } catch (error) {
-  //     toast.error("Failed to delete pet!");
-  //   } finally {
-  //     setIsDeleteModalOpen(false);
-  //     setSelectedPetId(null);
-  //   }
-  // };
-
+  
 
   const handleConfirmDeletePet = async () => {
   if (!selectedPetId) return;
@@ -180,20 +149,26 @@ export default function MyListingsPage() {
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-500 font-medium">Total Listings</p>
+      
             <h3 className="text-3xl font-bold text-gray-800">{stats.total}</h3>
           </div>
           <div className="p-3 bg-blue-50 text-blue-600 rounded-xl"><PawPrint size={24} /></div>
+      
         </div>
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
           <div>     <p className="text-sm text-gray-500 font-medium">Available</p>
             <h3 className="text-3xl font-bold text-green-600">{stats.available}</h3>
-         </div>
+     </div>
           <div className="p-3 bg-green-50 text-green-600 rounded-xl"><Check size={24} /></div>
+   
         </div>
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
           <div>
+         
            <p className="text-sm text-gray-500 font-medium">Adopted</p>
             <h3 className="text-3xl font-bold text-amber-600">{stats.adopted}</h3>
+        
+        
           </div>
           <div className="p-3 bg-amber-50 text-amber-600 rounded-xl"><Users size={24} /></div>
         </div>
@@ -210,15 +185,14 @@ export default function MyListingsPage() {
             <div key={pet._id} className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
               <div>
                <div className="relative h-48 w-full bg-gray-100">
-                  <img src={pet.image} alt={pet.name} className="w-full h-full object-cover" />
+        <img src={pet.image} alt={pet.name} className="w-full h-full object-cover" />
                   <span className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                    pet.status === "adopted" ? "bg-amber-100 text-amber-800" : "bg-green-100 text-green-800"
+         pet.status === "adopted" ? "bg-amber-100 text-amber-800" : "bg-green-100 text-green-800"
                   }`}>{pet.status}</span>
                 </div>
                <div className="p-5 space-y-2">
                   <h3 className="text-xl font-bold text-gray-800">{pet.name}</h3>
-                  <p className="text-gray-600 flex items-center gap-1 text-sm font-semibold">
-                    <BadgeDollarSign size={16} className="text-gray-400" /> Price: ${pet.adoptionFee || 0}
+                  <p className="text-gray-600 flex items-center gap-1 text-sm font-semibold">           <BadgeDollarSign size={16} className="text-gray-400" /> Price: ${pet.adoptionFee || 0}
                   </p>
                 </div>
               </div>
@@ -249,9 +223,10 @@ export default function MyListingsPage() {
       {isRequestModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="bg-white rounded-2xl p-6 max-w-2xl w-full mx-4 shadow-2xl space-y-4 max-h-[85vh] overflow-y-auto">
-            <div className="flex justify-between items-center border-b pb-3">
-              <h2 className="text-xl font-bold text-gray-800">Adoption Requests</h2>
-              <button onClick={() => setIsRequestModalOpen(false)} className="p-1.5 bg-gray-100 rounded-full hover:bg-gray-200 text-gray-500"><X size={18} /></button>
+     
+      <div className="flex justify-between items-center border-b pb-3">
+      <h2 className="text-xl font-bold text-gray-800">Adoption Requests</h2>
+           <button onClick={() => setIsRequestModalOpen(false)} className="p-1.5 bg-gray-100 rounded-full hover:bg-gray-200 text-gray-500"><X size={18} /></button>
             </div>
 
             {currentPetRequests.length === 0 ? (
@@ -262,6 +237,7 @@ export default function MyListingsPage() {
                   <div key={req._id} className={`pt-4 ${index === 0 ? "pt-0" : ""} flex flex-col sm:flex-row justify-between sm:items-center gap-4`}>
                     <div className="space-y-1">
                       <p className="font-bold text-gray-800">{req.userEmail === "demo@gmail.com" ? "Demo User" : req.userEmail.split('@')[0]}</p>
+                 
                     <p className="text-xs text-gray-500">Email: {req.userEmail}</p>
                       <p className="text-xs text-gray-600 font-medium">Pickup Date: {req.pickupDate}</p>
                     {req.message && <p className="text-xs text-gray-500 italic">"{req.message}"</p>}
@@ -270,7 +246,8 @@ export default function MyListingsPage() {
                     <div className="flex items-center gap-2">
                       {req.status !== "pending" ? (
                         <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                       req.status === "approved" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+                    
+                          req.status === "approved" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
                         }`}>{req.status}</span>
                       ) : (
                         <>
@@ -279,13 +256,14 @@ export default function MyListingsPage() {
                         </>
                       )}
                     </div>
-                  </div>
-                ))}
+             
+                 </div>
+                  ))}
               </div>
-            )}
+                 )}
           </div>
         </div>
-      )}
+           )}
 
   
       <DeleteModal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} onConfirm={handleConfirmDeletePet} />

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
+import { motion } from "framer-motion";
 export default function FeaturedPets() {
 
   const [pets, setPets] = useState([]);
@@ -29,10 +29,15 @@ export default function FeaturedPets() {
 
           {pets.slice(0, 6).map((pet) => (
 
-            <div
-              key={pet._id}
-              className="bg-gray-900 rounded-2xl overflow-hidden shadow-lg"
-            >
+         
+            <motion.div
+  key={pet._id}
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.4 }}
+  whileHover={{ scale: 1.05 }}
+  className="bg-gray-900 rounded-2xl overflow-hidden shadow-lg"
+>
 
               <img
                 src={pet.image}
@@ -58,7 +63,7 @@ export default function FeaturedPets() {
 
               </div>
 
-            </div>
+            </motion.div>
 
           ))}
 

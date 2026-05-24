@@ -6,7 +6,7 @@ export default function SuccessStories() {
     <section className="py-20 bg-gray-800 text-white">
       <div className="max-w-6xl mx-auto px-6 text-center">
 
-        {/* Title */}
+       
         <h2 className="text-4xl font-bold  mb-4">
           Success Stories
         </h2>
@@ -15,10 +15,10 @@ export default function SuccessStories() {
           Real people. Real pets. Real happiness.
         </p>
 
-        {/* Story Cards */}
+       
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-          {/* Card 1 */}
+        
           <div className="bg-gray-50 p-8 rounded-2xl shadow hover:shadow-lg transition text-left">
             <FaQuoteLeft className="text-3xl text-gray-300 mb-4" />
 
@@ -32,7 +32,7 @@ export default function SuccessStories() {
             </div>
           </div>
 
-          {/* Card 2 */}
+        
           <div className="bg-gray-50 p-8 rounded-2xl shadow hover:shadow-lg transition text-left">
             <FaQuoteLeft className="text-3xl text-gray-300 mb-4" />
 
@@ -46,7 +46,7 @@ export default function SuccessStories() {
             </div>
           </div>
 
-          {/* Card 3 */}
+         
           <div className="bg-gray-50 p-8 rounded-2xl shadow hover:shadow-lg transition text-left">
             <FaQuoteLeft className="text-3xl text-gray-300 mb-4" />
 
